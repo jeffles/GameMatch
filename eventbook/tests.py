@@ -177,3 +177,40 @@ class AdminTest(LiveServerTestCase):
         # Check event amended
         all_events = Event.objects.all()
         self.assertEquals(len(all_events), 0)
+
+
+class PostViewTest(LiveServerTestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_index(self):
+        event = Event()
+        event.title = 'My first event'
+        event.text = 'This is my first game night'
+        event.pub_date = timezone.now()
+        event.start_date = timezone.now()
+        event.end_time = timezone.now().time()
+        event.attendees = 'Jed and Jimmy'
+        event.location = 'Jeff'
+        event.save()
+
+        # Check new event saved
+        all_events = Event.objects.all()
+        self.assertEquals(len(all_events), 1)
+
+        # Fetch the index
+        response = self.client.get('/')
+        self.assertEquals(response.status_code, 200)
+
+        self.assertTrue(event.title in response.content)
+        self.assertTrue(event.text in response.content)
+        self.assertTrue(str(event.pub_date.year) in response.content)
+        self.assertTrue(event.pub_date.strftime('%b') in response.content)
+        self.assertTrue(str(event.pub_date.day) in response.content)
+        self.assertTrue(str(event.start_date.year) in response.content)
+        self.assertTrue(event.start_date.strftime('%b') in response.content)
+        self.assertTrue(str(event.start_date.day) in response.content)
+        self.assertTrue(event.start_date.strftime('%H:%M') in response.content)
+        self.assertTrue(event.end_time.strftime('%H:%M') in response.content)
+        self.assertTrue(event.attendees in response.content)
+        self.assertTrue(event.location in response.content)

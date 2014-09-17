@@ -49,7 +49,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'gamematch.urls'
+ROOT_URLCONF = 'urls'
 
 WSGI_APPLICATION = 'gamematch.wsgi.application'
 
@@ -82,3 +82,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Template directory
+TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
