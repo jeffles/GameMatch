@@ -2,6 +2,7 @@ from django.test import TestCase, LiveServerTestCase, Client
 from django.utils import timezone
 from eventbook.models import Event
 
+
 class EventTest(TestCase):
     def test_create_event(self):
         # Create the event
@@ -48,52 +49,28 @@ class EventTest(TestCase):
         self.assertEqual(only_event.end_time.minute, event.end_time.minute)
         self.assertEqual(only_event.end_time.second, event.end_time.second)
 
+
 class AdminTest(LiveServerTestCase):
     fixtures = ['users.json']
 
+    def setUp(self):
+        self.client = Client()
+
     def test_login(self):
-        # Create client
-        c = Client()
-
-        # Get login page
-        response = c.get('/admin/', follow=True)
-
-        # Check response code
+        response = self.client.get('/admin/', follow=True)
         self.assertEqual(response.status_code, 200)
-
-        # Check 'Log in' in response
         self.assertTrue('Log in' in response.content)
-
-        # Log the user in
-        c.login(username='bobsmith', password="password")
-
-        # Check response code
-        response = c.get('/admin/', follow=True)
+        self.client.login(username='bobsmith', password="password")
+        response = self.client.get('/admin/', follow=True)
         self.assertEquals(response.status_code, 200)
-
-        # Check 'Log out' in response
         self.assertTrue('Log out' in response.content)
 
     def test_logout(self):
-        # Create client
-        c = Client()
-
-        # Log in
-        c.login(username='bobsmith', password="password")
-
-        # Check response code
-        response = c.get('/admin/', follow=True)
+        self.client.login(username='bobsmith', password="password")
+        response = self.client.get('/admin/', follow=True)
         self.assertEquals(response.status_code, 200)
-
-        # Check 'Log out' in response
         self.assertTrue('Log out' in response.content)
-
-        # Log out
-        c.logout()
-
-        # Check response code
-        response = c.get('/admin/', follow=True)
+        self.client.logout()
+        response = self.client.get('/admin/', follow=True)
         self.assertEquals(response.status_code, 200)
-
-        # Check 'Log in' in response
         self.assertTrue('Log in' in response.content)
