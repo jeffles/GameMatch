@@ -10,7 +10,8 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "eventbook/static/bower_components"
   ],
   "dependencies": {
     "bootstrap": "~3.2.0",
