@@ -1,11 +1,24 @@
+
 {% extends "eventbook/includes/base.html" %}
 
     {% block content %}
-        {% for post in object_list %}
+        {% for event in object_list %}
         <div class="post">
-        <h1>{{ post.title }}</h1>
-        <h3>{{ post.pub_date }}</h3>
-        {{ post.text }}
+        <h1><a href="{{ event.get_absolute_url }}">{{ event.title }}</a></h1>
+        <h3>{{ event.pub_date }}</h3>
+        {{ event.text }}
+        {{ event.start_date }}
+        {{ event.end_time }}
+        {{ event.attendees }}
+        {{ event.location }}
         </div>
         {% endfor %}
+
+        {% if page_obj.has_previous %}
+        <a href="/{{ page_obj.previous_page_number }}/">Previous Page</a>
+        {% endif %}
+        {% if page_obj.has_next %}
+        <a href="/{{ page_obj.next_page_number }}/">Next Page</a>
+        {% endif %}
+
     {% endblock %}

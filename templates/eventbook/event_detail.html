@@ -1,0 +1,14 @@
+{% extends "eventbook/includes/base.html" %}
+
+    {% block content %}
+        <div class="event">
+        <h1>{{ object.title }}</h1>
+        <h3>{{ object.pub_date }}</h3>
+        {{ object.text }}
+        {{ object.start_date }}
+        {{ object.end_time }}
+        {{ object.attendees }}
+        {{ object.location }}
+        </div>
+
+{% endblock %}
