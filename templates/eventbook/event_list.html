@@ -1,16 +1,9 @@
-<html>
-    <head>
-        <title>My Django Blog</title>
-    </head>
-    <body>
-        {% for event in object_list %}
-        <h1>{{ event.title }}</h1>
-        <h3>{{ event.pub_date }}</h3>
-        {{ event.text }}
-        {{ event.start_date }}
-        {{ event.end_time }}
-        {{ event.attendees }}
-        {{ event.location }}
+{% extends "eventbook/includes/base.html" %}
+
+    {% block content %}
+        {% for post in object_list %}
+        <h1>{{ post.title }}</h1>
+        <h3>{{ post.pub_date }}</h3>
+        {{ post.text }}
         {% endfor %}
-    </body>
-</html>
+    {% endblock %}
