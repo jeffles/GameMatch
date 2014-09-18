@@ -1,0 +1,19 @@
+{
+  "name": "gamematch2",
+  "version": "0.0.0",
+  "authors": [
+    "Jeffles <jeff.sumner@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.2.0",
+    "html5-boilerplate": "~4.3.0"
+  }
+}
