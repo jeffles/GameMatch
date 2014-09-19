@@ -7,11 +7,11 @@
         {{ object.text }}
         {{ object.start_date }}
         {{ object.end_time }}
-        {{ object.attendees }}
+        {{ object.attendees }} <br />
         {{ object.location }}
 
         <h4>Comments</h4>
-        <div class="fb-comments" data-href="http://{{ post.site }}{{ post.get_absolute_url }}" data-width="470" data-num-posts="10"></div>
+        <div class="fb-comments" data-href="http://{{ event.site }}{{ event.get_absolute_url }}" data-width="470" data-num-posts="10"></div>
 
 
         </div>
