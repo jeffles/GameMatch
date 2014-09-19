@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Event(models.Model):
@@ -10,6 +10,7 @@ class Event(models.Model):
     end_time = models.TimeField()
     attendees = models.TextField()
     location = models.TextField()
+    host = models.ForeignKey(User)
     slug = models.SlugField(max_length=40, unique=True)
 
     def get_absolute_url(self):
