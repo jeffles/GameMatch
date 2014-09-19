@@ -1,6 +1,7 @@
 from django.test import TestCase, LiveServerTestCase, Client
 from django.utils import timezone
 from eventbook.models import Event
+from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
 
 
@@ -8,6 +9,11 @@ class EventTest(TestCase):
     def test_create_event(self):
         host = User.objects.create_user('testuser', 'user@example.com', 'password')
         host.save()
+
+        site = Site()
+        site.name = 'example.com'
+        site.domain = 'example.com'
+        site.save()
 
         event = Event()
 
@@ -20,6 +26,7 @@ class EventTest(TestCase):
         event.location = "Jeff's house"
         event.slug = 'my-first-event'
         event.host = host
+        event.site = site
         event.save()
 
         # Check we can find it
@@ -31,6 +38,9 @@ class EventTest(TestCase):
         # Check attributes
         self.assertEqual(only_event.title, 'My first event')
         self.assertEqual(only_event.text, 'This is my first game night')
+        self.assertEqual(only_event.slug, 'my-first-event')
+        self.assertEqual(only_event.site.name, 'example.com')
+        self.assertEqual(only_event.site.domain, 'example.com')
         self.assertEqual(only_event.attendees, 'Jed and Jimmy')
         self.assertEqual(only_event.location, "Jeff's house")
         self.assertEqual(only_event.pub_date.day, event.pub_date.day)
@@ -51,12 +61,14 @@ class EventTest(TestCase):
         self.assertEqual(only_event.end_time.minute, event.end_time.minute)
         self.assertEqual(only_event.end_time.second, event.end_time.second)
 
-        self.assertEquals(only_event.host.username, 'testuser')
-        self.assertEquals(only_event.host.email, 'user@example.com')
+        self.assertEqual(only_event.host.username, 'testuser')
+        self.assertEqual(only_event.host.email, 'user@example.com')
+
 
 class BaseAcceptanceTest(LiveServerTestCase):
     def setUp(self):
         self.client = Client()
+
 
 class AdminTest(BaseAcceptanceTest):
     fixtures = ['users.json']
@@ -95,7 +107,8 @@ class AdminTest(BaseAcceptanceTest):
             'end_time': '23:00:04',
             'attendees': 'Jed and Jimmy',
             'location': "Jeff's house",
-            'slug': 'my-first-post'
+            'slug': 'my-first-post',
+            'site': '1'
         },
         follow=True
         )
@@ -108,6 +121,12 @@ class AdminTest(BaseAcceptanceTest):
     def test_edit_event(self):
         host = User.objects.create_user('testuser', 'user@example.com', 'password')
         host.save()
+
+        site = Site()
+        site.name = 'example.com'
+        site.domain = 'example.com'
+        site.save()
+
         event = Event()
 
         event.title = 'My first event'
@@ -119,6 +138,7 @@ class AdminTest(BaseAcceptanceTest):
         event.location = 'Jeff'
         event.slug = 'my-first-event'
         event.host = host
+        event.site = site
         event.save()
 
         # Check event amended
@@ -146,7 +166,8 @@ class AdminTest(BaseAcceptanceTest):
             'end_time': '23:00:04',
             'attendees': 'Jed and Jimmy',
             'location': "Jeff's house",
-            'slug': 'my-first-post'
+            'slug': 'my-first-post',
+            'site': '1'
         },
         follow=True
         )
@@ -165,6 +186,11 @@ class AdminTest(BaseAcceptanceTest):
         host = User.objects.create_user('testuser', 'user@example.com', 'password')
         host.save()
 
+        site = Site()
+        site.name = 'example.com'
+        site.domain = 'example.com'
+        site.save()
+
         event = Event()
         event.title = 'My first event'
         event.text = 'This is my first game night'
@@ -175,6 +201,7 @@ class AdminTest(BaseAcceptanceTest):
         event.location = 'Jeff'
         event.slug = 'my-first-event'
         event.host = host
+        event.site = site
         event.save()
 
         # Check new event saved
@@ -204,6 +231,11 @@ class PostViewTest(BaseAcceptanceTest):
         host = User.objects.create_user('testuser', 'user@example.com', 'password')
         host.save()
 
+        site = Site()
+        site.name = 'example.com'
+        site.domain = 'example.com'
+        site.save()
+
         event = Event()
         event.title = 'My first event'
         event.text = 'This is my first game night'
@@ -214,6 +246,7 @@ class PostViewTest(BaseAcceptanceTest):
         event.location = 'Jeff'
         event.slug = 'my-first-event'
         event.host = host
+        event.site = site
         event.save()
 
         # Check new event saved
@@ -241,6 +274,11 @@ class PostViewTest(BaseAcceptanceTest):
         host = User.objects.create_user('testuser', 'user@example.com', 'password')
         host.save()
 
+        site = Site()
+        site.name = 'example.com'
+        site.domain = 'example.com'
+        site.save()
+
         event = Event()
         event.title = 'My first event'
         event.text = 'This is my first game night'
@@ -251,6 +289,7 @@ class PostViewTest(BaseAcceptanceTest):
         event.location = 'Jeff'
         event.slug = 'my-first-event'
         event.host = host
+        event.site = site
         event.save()
 
         all_events = Event.objects.all()
