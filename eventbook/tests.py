@@ -3,31 +3,64 @@ from django.utils import timezone
 from eventbook.models import Event
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
+import factory.django
+
+# Factories
+class SiteFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Site
+        django_get_or_create = (
+            'name',
+            'domain'
+        )
+
+    name = 'example.com'
+    domain = 'example.com'
+
+class HostFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = User
+        django_get_or_create = ('username','email', 'password',)
+
+    username = 'testuser'
+    email = 'user@example.com'
+    password = 'password'
+
+class EventFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Event
+        django_get_or_create = (
+            'title',
+            'text',
+            'pub_date',
+            'start_date',
+            'end_time',
+            'attendees',
+            'location',
+            'slug',
+            'host',
+            'site'
+        )
+
+    title = 'My first event'
+    text = 'This is my first game night'
+    slug = 'my-first-event'
+    pub_date = timezone.now()
+    host = factory.SubFactory(HostFactory)
+    site = factory.SubFactory(SiteFactory)
+    start_date = timezone.now()
+    end_time = timezone.now().time()
+    attendees = 'Jed and Jimmy'
+    location = 'Jeff'
+
+
+
 
 
 class EventTest(TestCase):
     def test_create_event(self):
-        host = User.objects.create_user('testuser', 'user@example.com', 'password')
-        host.save()
 
-        site = Site()
-        site.name = 'example.com'
-        site.domain = 'example.com'
-        site.save()
-
-        event = Event()
-
-        event.title = 'My first event'
-        event.text = 'This is my first game night'
-        event.pub_date = timezone.now()
-        event.start_date = timezone.now()
-        event.end_time = timezone.now().time()
-        event.attendees = 'Jed and Jimmy'
-        event.location = "Jeff's house"
-        event.slug = 'my-first-event'
-        event.host = host
-        event.site = site
-        event.save()
+        event = EventFactory()
 
         # Check we can find it
         all_events = Event.objects.all()
@@ -42,7 +75,7 @@ class EventTest(TestCase):
         self.assertEqual(only_event.site.name, 'example.com')
         self.assertEqual(only_event.site.domain, 'example.com')
         self.assertEqual(only_event.attendees, 'Jed and Jimmy')
-        self.assertEqual(only_event.location, "Jeff's house")
+        self.assertEqual(only_event.location, "Jeff")
         self.assertEqual(only_event.pub_date.day, event.pub_date.day)
         self.assertEqual(only_event.pub_date.month, event.pub_date.month)
         self.assertEqual(only_event.pub_date.year, event.pub_date.year)
@@ -119,27 +152,7 @@ class AdminTest(BaseAcceptanceTest):
         self.assertEquals(len(all_events), 1)
 
     def test_edit_event(self):
-        host = User.objects.create_user('testuser', 'user@example.com', 'password')
-        host.save()
-
-        site = Site()
-        site.name = 'example.com'
-        site.domain = 'example.com'
-        site.save()
-
-        event = Event()
-
-        event.title = 'My first event'
-        event.text = 'This is my first game night'
-        event.pub_date = timezone.now()
-        event.start_date = timezone.now()
-        event.end_time = timezone.now().time()
-        event.attendees = 'Jed and Jimmy'
-        event.location = 'Jeff'
-        event.slug = 'my-first-event'
-        event.host = host
-        event.site = site
-        event.save()
+        event = EventFactory()
 
         # Check event amended
         all_events = Event.objects.all()
@@ -183,26 +196,8 @@ class AdminTest(BaseAcceptanceTest):
         self.assertEquals(only_event.text, 'This is my second game night')
 
     def test_delete_event(self):
-        host = User.objects.create_user('testuser', 'user@example.com', 'password')
-        host.save()
 
-        site = Site()
-        site.name = 'example.com'
-        site.domain = 'example.com'
-        site.save()
-
-        event = Event()
-        event.title = 'My first event'
-        event.text = 'This is my first game night'
-        event.pub_date = timezone.now()
-        event.start_date = timezone.now()
-        event.end_time = timezone.now().time()
-        event.attendees = 'Jed and Jimmy'
-        event.location = 'Jeff'
-        event.slug = 'my-first-event'
-        event.host = host
-        event.site = site
-        event.save()
+        event = EventFactory()
 
         # Check new event saved
         all_events = Event.objects.all()
@@ -228,26 +223,7 @@ class AdminTest(BaseAcceptanceTest):
 class PostViewTest(BaseAcceptanceTest):
 
     def test_index(self):
-        host = User.objects.create_user('testuser', 'user@example.com', 'password')
-        host.save()
-
-        site = Site()
-        site.name = 'example.com'
-        site.domain = 'example.com'
-        site.save()
-
-        event = Event()
-        event.title = 'My first event'
-        event.text = 'This is my first game night'
-        event.pub_date = timezone.now()
-        event.start_date = timezone.now()
-        event.end_time = timezone.now().time()
-        event.attendees = 'Jed and Jimmy'
-        event.location = 'Jeff'
-        event.slug = 'my-first-event'
-        event.host = host
-        event.site = site
-        event.save()
+        event = EventFactory()
 
         # Check new event saved
         all_events = Event.objects.all()
@@ -271,26 +247,7 @@ class PostViewTest(BaseAcceptanceTest):
         self.assertTrue(event.location in response.content)
 
     def test_event_page(self):
-        host = User.objects.create_user('testuser', 'user@example.com', 'password')
-        host.save()
-
-        site = Site()
-        site.name = 'example.com'
-        site.domain = 'example.com'
-        site.save()
-
-        event = Event()
-        event.title = 'My first event'
-        event.text = 'This is my first game night'
-        event.pub_date = timezone.now()
-        event.start_date = timezone.now()
-        event.end_time = timezone.now().time()
-        event.attendees = 'Jed and Jimmy'
-        event.location = 'Jeff'
-        event.slug = 'my-first-event'
-        event.host = host
-        event.site = site
-        event.save()
+        event = EventFactory()
 
         all_events = Event.objects.all()
         self.assertEquals(len(all_events), 1)
