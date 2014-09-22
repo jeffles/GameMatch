@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.test import TestCase, LiveServerTestCase, Client
 from django.utils import timezone
 from eventbook.models import Event
@@ -45,11 +46,11 @@ class EventFactory(factory.django.DjangoModelFactory):
     title = 'My first event'
     text = 'This is my first game night'
     slug = 'my-first-event'
-    pub_date = timezone.now()
+    pub_date = timezone.localtime(timezone.now())
     host = factory.SubFactory(HostFactory)
     site = factory.SubFactory(SiteFactory)
-    start_date = timezone.now()
-    end_time = timezone.now().time()
+    start_date = timezone.localtime(timezone.now())
+    end_time = timezone.localtime(timezone.now()).time()
     attendees = 'Jed and Jimmy'
     location = 'Jeff'
 
@@ -76,17 +77,17 @@ class EventTest(TestCase):
         self.assertEqual(only_event.site.domain, 'example.com')
         self.assertEqual(only_event.attendees, 'Jed and Jimmy')
         self.assertEqual(only_event.location, "Jeff")
-        self.assertEqual(only_event.pub_date.day, event.pub_date.day)
+        self.assertEqual(timezone.localtime(only_event.pub_date).day, timezone.localtime(event.pub_date).day)
         self.assertEqual(only_event.pub_date.month, event.pub_date.month)
         self.assertEqual(only_event.pub_date.year, event.pub_date.year)
-        self.assertEqual(only_event.pub_date.hour, event.pub_date.hour)
+        self.assertEqual(timezone.localtime(only_event.pub_date).hour, timezone.localtime(event.pub_date).hour)
         self.assertEqual(only_event.pub_date.minute, event.pub_date.minute)
         self.assertEqual(only_event.pub_date.second, event.pub_date.second)
 
-        self.assertEqual(only_event.start_date.day, event.start_date.day)
+        self.assertEqual(timezone.localtime(only_event.start_date).day, timezone.localtime(event.start_date).day)
         self.assertEqual(only_event.start_date.month, event.start_date.month)
         self.assertEqual(only_event.start_date.year, event.start_date.year)
-        self.assertEqual(only_event.start_date.hour, event.start_date.hour)
+        self.assertEqual(timezone.localtime(only_event.start_date).hour, timezone.localtime(event.start_date).hour)
         self.assertEqual(only_event.start_date.minute, event.start_date.minute)
         self.assertEqual(only_event.start_date.second, event.start_date.second)
 
@@ -230,7 +231,7 @@ class PostViewTest(BaseAcceptanceTest):
         self.assertEquals(len(all_events), 1)
 
         # Fetch the index
-        response = self.client.get('/')
+        response = self.client.get(reverse('eventbook:index'))
         self.assertEquals(response.status_code, 200)
 
         self.assertTrue(event.title in response.content)

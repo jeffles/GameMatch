@@ -34,6 +34,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'eventbook',
@@ -69,7 +70,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'CST'
 
 USE_I18N = True
 
@@ -85,3 +86,5 @@ STATIC_URL = '/static/'
 
 # Template directory
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
+
+SITE_ID = '1'
