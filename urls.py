@@ -12,4 +12,8 @@ urlpatterns = patterns('',
 
     # Blog URLs
     url(r'', include('gamematch.urls', namespace="eventbook")),
+
+    # Login
+    url('', include('django.contrib.auth.urls', namespace='auth')),
+    url('', include('social.apps.django_app.urls', namespace='social')),
 )
