@@ -4,11 +4,11 @@
         <div class="post col-md-12">
         <h1>{{ object.title }}</h1>
         <h3>{{ object.pub_date }}</h3>
-        {{ object.text }} <br />
+        {{ object.text|safe }} <br />
         {{ object.start_date }}<br />
         {{ object.end_time }} <br />
         {{ object.attendees }} <br />
-        {{ object.location }}<br />
+        {{ object.location|safe }}<br />
         </div>
         {% if object.category %}
         <div class="col-md-12">
