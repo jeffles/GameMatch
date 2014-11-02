@@ -24,3 +24,31 @@ class Event(models.Model):
 
     class Meta:
         ordering = ["-pub_date"]
+
+
+class Game(models.Model):
+    id = models.CharField(max_length=10, primary_key=True)
+    name = models.CharField(max_length=255)
+    yearpublished = models.CharField(max_length=5)
+    minplayers = models.IntegerField()
+    maxplayers = models.IntegerField()
+    playingtime = models.CharField(max_length=50)
+#            'families',
+#            'categories',
+#            'mechanics',
+#            'designers',
+#            'artists',
+#            'publishers',
+#            'categories',
+    thumbnail = models.URLField()
+    image = models.URLField()
+    description = models.TextField()
+
+    def get_absolute_url(self):
+        return self.id
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        ordering = ["name"]

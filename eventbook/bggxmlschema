@@ -1,0 +1,809 @@
+--- Forumlist ---
+
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+elementFormDefault="qualified">
+
+  <xs:element name="forums">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="forum" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:attribute name="id" type="xs:integer" use="required"/>
+            <xs:attribute name="groupid" type="xs:integer"/>
+            <xs:attribute name="title" type="xs:string"/>
+            <xs:attribute name="noposting" type="xs:integer"/>
+            <xs:attribute name="description" type="xs:string"/>
+            <xs:attribute name="numthreads" type="xs:integer"/>
+            <xs:attribute name="numposts" type="xs:integer"/>
+            <xs:attribute name="lastpostdate" type="xs:string"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="type" type="xs:string"/>
+      <xs:attribute name="id" type="xs:integer" use="required"/>
+      <xs:attribute name="termsofuse" type="xs:anyURI"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
+
+-----------------
+
+
+
+--- Forum ---
+
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+elementFormDefault="qualified">
+
+  <xs:element name="forum">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="threads">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="thread" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="id" type="xs:integer" use="required"/>
+                  <xs:attribute name="subject" type="xs:string"/>
+                  <xs:attribute name="author" type="xs:string"/>
+                  <xs:attribute name="numarticles" type="xs:integer"/>
+                  <xs:attribute name="postdate" type="xs:string"/>
+                  <xs:attribute name="lastpostdate" type="xs:string"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:integer" use="required"/>
+      <xs:attribute name="title" type="xs:string"/>
+      <xs:attribute name="numthreads" type="xs:integer"/>
+      <xs:attribute name="numposts" type="xs:integer"/>
+      <xs:attribute name="lastpostdate" type="xs:string"/>
+      <xs:attribute name="noposting" type="xs:integer"/>
+      <xs:attribute name="termsofuse" type="xs:anyURI"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
+
+--------------
+
+
+
+--- Thread ---
+
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+elementFormDefault="qualified">
+
+  <xs:element name="thread">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="subject" type="xs:string"/>
+        <xs:element name="articles">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="article" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="subject" type="xs:string"/>
+                    <xs:element name="body" type="xs:string"/>
+                  </xs:sequence>
+                  <xs:attribute name="id" type="xs:integer" use="required"/>
+                  <xs:attribute name="username" type="xs:string"/>
+                  <xs:attribute name="link" type="xs:anyURI"/>
+                  <xs:attribute name="postdate" type="xs:dateTime"/>
+                  <xs:attribute name="editdate" type="xs:dateTime"/>
+                  <xs:attribute name="numedits" type="xs:integer"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:integer" use="required"/>
+      <xs:attribute name="numarticles" type="xs:integer"/>
+      <xs:attribute name="link" type="xs:anyURI"/>
+      <xs:attribute name="termsofuse" type="xs:anyURI"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
+
+--------------
+
+
+
+--- Search ---
+
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+  <xs:complexType name="stringValueType">
+    <xs:attribute name="value" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="nameType">
+    <xs:attribute name="type" type="xs:string"/>
+    <xs:attribute name="value" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:element name="items">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="name" type="nameType"/>
+              <xs:element name="yearpublished" type="stringValueType" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="type" type="xs:string"/>
+            <xs:attribute name="id" type="xs:integer"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="total" type="xs:integer"/>
+      <xs:attribute name="termsofuse" type="xs:anyURI"/>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
+
+--------------
+
+
+
+--- Family ---
+
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+elementFormDefault="qualified">
+
+  <xs:complexType name="valueType">
+    <xs:attribute name="value" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="nameType">
+    <xs:attribute name="type" type="xs:string"/>
+    <xs:attribute name="sortindex" type="xs:integer"/>
+    <xs:attribute name="value" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="linkType">
+    <xs:attribute name="type" type="xs:string"/>
+    <xs:attribute name="id" type="xs:integer"/>
+    <xs:attribute name="value" type="xs:string"/>
+    <xs:attribute name="inbound" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:element name="items">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="thumbnail" type="xs:anyURI"/>
+              <xs:element name="image" type="xs:anyURI"/>
+              <xs:element name="name" type="nameType" maxOccurs="unbounded"/>
+              <xs:element name="description" type="xs:string"/>
+              <xs:element name="link" type="linkType" maxOccurs="unbounded"/>
+            </xs:sequence>
+            <xs:attribute name="type" type="xs:string"/>
+            <xs:attribute name="id" type="xs:integer"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="termsofuse" type="xs:anyURI"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
+
+--------------
+
+
+
+--- Thing ---
+
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+elementFormDefault="qualified">
+
+  <xs:complexType name="stringValueType">
+    <xs:attribute name="value" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="dateValueType">
+    <xs:attribute name="value" type="xs:date"/>
+  </xs:complexType>
+
+  <xs:complexType name="decimalValueType">
+    <xs:attribute name="value" type="xs:decimal"/>
+  </xs:complexType>
+
+  <xs:complexType name="integerValueType">
+    <xs:attribute name="value" type="xs:integer"/>
+  </xs:complexType>
+
+  <xs:complexType name="nameType">
+    <xs:attribute name="type" type="xs:string"/>
+    <xs:attribute name="sortindex" type="xs:integer"/>
+    <xs:attribute name="value" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="linkType">
+    <xs:attribute name="type" type="xs:string"/>
+    <xs:attribute name="id" type="xs:integer"/>
+    <xs:attribute name="value" type="xs:string"/>
+    <xs:attribute name="inbound" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="pollType">
+    <xs:sequence>
+      <xs:element name="results" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="result" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:attribute name="value" type="xs:string"/>
+                <xs:attribute name="numvotes" type="xs:integer"/>
+                <xs:attribute name="level" type="xs:integer"/>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute name="numplayers" type="xs:string"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="title" type="xs:string"/>
+    <xs:attribute name="totalvotes" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="videosType">
+    <xs:sequence>
+      <xs:element name="video" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:integer"/>
+          <xs:attribute name="title" type="xs:string"/>
+          <xs:attribute name="category" type="xs:string"/>
+          <xs:attribute name="language" type="xs:string"/>
+          <xs:attribute name="link" type="xs:anyURI"/>
+          <xs:attribute name="username" type="xs:string"/>
+          <xs:attribute name="userid" type="xs:integer"/>
+          <xs:attribute name="postdate" type="xs:dateTime"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="total" type="xs:integer"/>
+  </xs:complexType>
+
+  <xs:complexType name="versionItemType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="thumbnail" type="xs:anyURI"/>
+      <xs:element name="image" type="xs:anyURI"/>
+      <xs:element name="name" type="nameType"/>
+      <xs:element name="yearpublished" type="stringValueType"/>
+      <xs:element name="link" type="linkType"/>
+      <xs:element name="productcode" type="stringValueType"/>
+      <xs:element name="width" type="decimalValueType"/>
+      <xs:element name="length" type="decimalValueType"/>
+      <xs:element name="depth" type="decimalValueType"/>
+      <xs:element name="weight" type="decimalValueType"/>
+    </xs:choice>
+    <xs:attribute name="type" type="xs:string"/>
+    <xs:attribute name="id" type="xs:integer"/>
+  </xs:complexType>
+
+  <xs:complexType name="commentType">
+    <xs:attribute name="username" type="xs:string"/>
+    <xs:attribute name="rating" type="xs:string"/>
+    <xs:attribute name="value" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="ratingsType">
+    <xs:sequence>
+      <xs:element name="usersrated" type="integerValueType"/>
+      <xs:element name="average" type="decimalValueType"/>
+      <xs:element name="bayesaverage" type="decimalValueType"/>
+      <xs:element name="ranks">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="rank">
+              <xs:complexType>
+                <xs:attribute name="type" type="xs:string"/>
+                <xs:attribute name="id" type="xs:integer"/>
+                <xs:attribute name="name" type="xs:string"/>
+                <xs:attribute name="friendlyname" type="xs:string"/>
+                <xs:attribute name="value" type="xs:string"/>
+                <xs:attribute name="bayesaverage" type="xs:string"/>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="stddev" type="decimalValueType"/>
+      <xs:element name="median" type="decimalValueType"/>
+      <xs:element name="owned" type="integerValueType"/>
+      <xs:element name="trading" type="integerValueType"/>
+      <xs:element name="wanting" type="integerValueType"/>
+      <xs:element name="wishing" type="integerValueType"/>
+      <xs:element name="numcomments" type="integerValueType"/>
+      <xs:element name="numweights" type="integerValueType"/>
+      <xs:element name="averageweight" type="decimalValueType"/>
+    </xs:sequence>
+    <xs:attribute name="date" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="listingType">
+    <xs:sequence>
+      <xs:element name="listdate" type="stringValueType"/>
+      <xs:element name="price">
+        <xs:complexType>
+           <xs:attribute name="currency" type="xs:string"/>
+           <xs:attribute name="value" type="xs:decimal"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="condition" type="stringValueType"/>
+      <xs:element name="notes" type="stringValueType"/>
+      <xs:element name="link">
+        <xs:complexType>
+          <xs:attribute name="href" type="xs:anyURI"/>
+          <xs:attribute name="title" type="xs:string"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="items">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="item" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+              <xs:element name="thumbnail" type="xs:anyURI"/>
+              <xs:element name="image" type="xs:anyURI"/>
+              <xs:element name="name" type="nameType"/>
+              <xs:element name="description" type="xs:string"/>
+              <xs:element name="yearpublished" type="stringValueType"/>
+              <xs:element name="datepublished" type="stringValueType"/>
+              <xs:element name="releasedate" type="dateValueType"/>
+              <xs:element name="minplayers" type="integerValueType"/>
+              <xs:element name="maxplayers" type="integerValueType"/>
+              <xs:element name="link" type="linkType"/>
+              <xs:element name="seriescode" type="stringValueType"/>
+              <xs:element name="issueindex" type="stringValueType"/>
+              <xs:element name="poll" type="pollType"/>
+              <xs:element name="playingtime" type="stringValueType"/>
+              <xs:element name="minage" type="integerValueType"/>
+              <xs:element name="videos" type="videosType"/>
+              <xs:element name="versions">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="item" type="versionItemType" minOccurs="0" maxOccurs="unbounded"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="comments">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="comment" type="commentType" minOccurs="0" maxOccurs="unbounded"/>
+                  </xs:sequence>
+                  <xs:attribute name="page" type="xs:string"/>
+                  <xs:attribute name="totalitems" type="xs:integer"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="statistics">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="ratings" type="ratingsType" maxOccurs="unbounded"/>
+                  </xs:sequence>
+                  <xs:attribute name="page" type="xs:string"/>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="marketplacelistings">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="listing" type="listingType" maxOccurs="unbounded"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:choice>
+            <xs:attribute name="type" type="xs:string"/>
+            <xs:attribute name="id" type="xs:integer"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="termsofuse" type="xs:anyURI"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
+
+-------------
+
+
+
+--- User ---
+
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+elementFormDefault="qualified">
+
+  <xs:complexType name="stringValueType">
+    <xs:attribute name="value" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="rankingType">
+    <xs:sequence>
+      <xs:element name="item" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="rank" type="xs:string"/>
+          <xs:attribute name="type" type="xs:string"/>
+          <xs:attribute name="id" type="xs:string"/>
+          <xs:attribute name="name" type="xs:string"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="domain" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:element name="user">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="firstname" type="stringValueType"/>
+        <xs:element name="lastname" type="stringValueType"/>
+        <xs:element name="avatarlink" type="stringValueType"/>
+        <xs:element name="yearregistered" type="stringValueType"/>
+        <xs:element name="lastlogin" type="stringValueType"/>
+        <xs:element name="stateorprovince" type="stringValueType"/>
+        <xs:element name="country" type="stringValueType"/>
+        <xs:element name="webaddress" type="stringValueType"/>
+        <xs:element name="xboxaccount" type="stringValueType"/>
+        <xs:element name="wiiaccount" type="stringValueType"/>
+        <xs:element name="psnaccount" type="stringValueType"/>
+        <xs:element name="battlenetaccount" type="stringValueType"/>
+        <xs:element name="steamaccount" type="stringValueType"/>
+        <xs:element name="traderating" type="stringValueType"/>
+        <xs:element name="buddies" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="buddy" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="id" type="xs:integer" use="required"/>
+                  <xs:attribute name="name" type="xs:string" use="required"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="total" type="xs:integer"/>
+            <xs:attribute name="page" type="xs:integer"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="guilds" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="guild" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="id" type="xs:integer" use="required"/>
+                  <xs:attribute name="name" type="xs:string" use="required"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="total" type="xs:integer"/>
+            <xs:attribute name="page" type="xs:integer"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="top" type="rankingType" minOccurs="0"/>
+        <xs:element name="hot" type="rankingType" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:integer" use="required"/>
+      <xs:attribute name="name" type="xs:string" use="required"/>
+      <xs:attribute name="termsofuse" type="xs:anyURI"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
+
+------------
+
+
+
+--- Collection ---
+
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+  <xs:complexType name="stringValueType">
+    <xs:attribute name="value" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="integerValueType">
+    <xs:attribute name="value" type="xs:integer"/>
+  </xs:complexType>
+
+  <xs:complexType name="decimalValueType">
+    <xs:attribute name="value" type="xs:decimal"/>
+  </xs:complexType>
+
+  <xs:complexType name="sortType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="sortindex" type="xs:integer"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="nameType">
+    <xs:attribute name="type" type="xs:string"/>
+    <xs:attribute name="sortindex" type="xs:integer"/>
+    <xs:attribute name="value" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="linkType">
+    <xs:attribute name="type" type="xs:string"/>
+    <xs:attribute name="id" type="xs:integer"/>
+    <xs:attribute name="value" type="xs:string"/>
+    <xs:attribute name="inbound" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="ratingsType">
+    <xs:sequence>
+      <xs:element name="usersrated" type="integerValueType"/>
+      <xs:element name="average" type="decimalValueType"/>
+      <xs:element name="bayesaverage" type="decimalValueType"/>
+      <xs:element name="stddev" type="decimalValueType"/>
+      <xs:element name="median" type="decimalValueType"/>
+      <xs:element name="ranks">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="rank" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:attribute name="type" type="xs:string"/>
+                <xs:attribute name="id" type="xs:integer"/>
+                <xs:attribute name="name" type="xs:string"/>
+                <xs:attribute name="friendlyname" type="xs:string"/>
+                <xs:attribute name="value" type="xs:string"/>
+                <xs:attribute name="bayesaverage" type="xs:string"/>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="value" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="statsType">
+    <xs:sequence>
+      <xs:element name="rating" type="ratingsType"/>
+    </xs:sequence>
+    <xs:attribute name="minplayers" type="xs:integer"/>
+    <xs:attribute name="maxplayers" type="xs:integer"/>
+    <xs:attribute name="playingtime" type="xs:integer"/>
+    <xs:attribute name="numowned" type="xs:integer"/>
+  </xs:complexType>
+
+  <xs:complexType name="versionItemType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="thumbnail" type="xs:anyURI"/>
+      <xs:element name="image" type="xs:anyURI"/>
+      <xs:element name="name" type="nameType"/>
+      <xs:element name="yearpublished" type="stringValueType"/>
+      <xs:element name="link" type="linkType"/>
+      <xs:element name="productcode" type="stringValueType"/>
+      <xs:element name="width" type="decimalValueType"/>
+      <xs:element name="length" type="decimalValueType"/>
+      <xs:element name="depth" type="decimalValueType"/>
+      <xs:element name="weight" type="decimalValueType"/>
+    </xs:choice>
+    <xs:attribute name="type" type="xs:string"/>
+    <xs:attribute name="id" type="xs:integer"/>
+  </xs:complexType>
+
+  <xs:complexType name="collectionItemType">
+    <xs:sequence>
+      <xs:element name="name" type="sortType"/>
+      <xs:element name="originalname" type="xs:string" minOccurs="0"/>
+      <xs:element name="yearpublished" type="xs:string" minOccurs="0"/>
+      <xs:element name="image" type="xs:anyURI" minOccurs="0"/>
+      <xs:element name="thumbnail" type="xs:anyURI" minOccurs="0"/>
+      <xs:element name="stats" type="statsType" minOccurs="0"/>
+      <xs:element name="status">
+        <xs:complexType>
+          <xs:attribute name="own" type="xs:integer"/>
+          <xs:attribute name="prevowned" type="xs:integer"/>
+          <xs:attribute name="fortrade" type="xs:integer"/>
+          <xs:attribute name="want" type="xs:integer"/>
+          <xs:attribute name="wanttoplay" type="xs:integer"/>
+          <xs:attribute name="wanttobuy" type="xs:integer"/>
+          <xs:attribute name="wishlist" type="xs:integer"/>
+          <xs:attribute name="preordered" type="xs:integer"/>
+          <xs:attribute name="lastmodified" type="xs:string"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="numplays" type="xs:integer" minOccurs="0"/>
+      <xs:element name="version" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="item" type="versionItemType"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="objecttype" type="xs:string"/>
+    <xs:attribute name="objectid" type="xs:integer"/>
+    <xs:attribute name="subtype" type="xs:string"/>
+    <xs:attribute name="collid" type="xs:integer"/>
+  </xs:complexType>
+
+  <xs:element name="items">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="item" type="collectionItemType" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="totalitems" type="xs:integer"/>
+      <xs:attribute name="termsofuse" type="xs:anyURI"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
+
+------------------
+
+
+
+--- Guild ---
+
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+  <xs:element name="guild">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="category" type="xs:string"/>
+        <xs:element name="website" type="xs:string"/>
+        <xs:element name="manager" type="xs:string"/>
+        <xs:element name="description" type="xs:string"/>
+        <xs:element name="location">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="addr1" type="xs:string"/>
+              <xs:element name="addr2" type="xs:string"/>
+              <xs:element name="city" type="xs:string"/>
+              <xs:element name="stateorprovince" type="xs:string"/>
+              <xs:element name="postalcode" type="xs:string"/>
+              <xs:element name="country" type="xs:string"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="members" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="member" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="name" type="xs:string"/>
+                  <xs:attribute name="date" type="xs:string"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="count" type="xs:integer"/>
+            <xs:attribute name="page" type="xs:integer"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:integer"/>
+      <xs:attribute name="name" type="xs:string"/>
+      <xs:attribute name="created" type="xs:string"/>
+      <xs:attribute name="termsofuse" type="xs:anyURI"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
+
+-------------
+
+
+
+--- Hot ---
+
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+  <xs:complexType name="stringValueType">
+    <xs:attribute name="value" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:element name="items">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="thumbnail" type="stringValueType"/>
+              <xs:element name="name" type="stringValueType"/>
+              <xs:element name="yearpublished" type="stringValueType" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:integer"/>
+            <xs:attribute name="rank" type="xs:integer"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="termsofuse" type="xs:anyURI"/>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
+
+-----------
+
+
+
+--- Plays ---
+
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+  <xs:complexType name="stringValueType">
+    <xs:attribute name="value" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="playItemType">
+    <xs:sequence>
+      <xs:element name="subtypes">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="subtype" type="stringValueType" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="objecttype" type="xs:string"/>
+    <xs:attribute name="objectid" type="xs:integer"/>
+  </xs:complexType>
+
+  <xs:complexType name="playersType">
+    <xs:sequence>
+      <xs:element name="player" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="username" type="xs:string"/>
+          <xs:attribute name="userid" type="xs:integer"/>
+          <xs:attribute name="name" type="xs:string"/>
+          <xs:attribute name="startposition" type="xs:integer"/>
+          <xs:attribute name="color" type="xs:string"/>
+          <xs:attribute name="score" type="xs:integer"/>
+          <xs:attribute name="new" type="xs:integer"/>
+          <xs:attribute name="rating" type="xs:integer"/>
+          <xs:attribute name="win" type="xs:integer"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="plays">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="play" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="item" type="playItemType"/>
+              <xs:element name="comments" type="xs:string" minOccurs="0"/>
+              <xs:element name="players" type="playersType" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:integer"/>
+            <xs:attribute name="date" type="xs:string"/>
+            <xs:attribute name="quantity" type="xs:integer"/>
+            <xs:attribute name="length" type="xs:integer"/>
+            <xs:attribute name="incomplete" type="xs:integer"/>
+            <xs:attribute name="nowinstats" type="xs:integer"/>
+            <xs:attribute name="location" type="xs:string"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="username" type="xs:string"/>
+      <xs:attribute name="userid" type="xs:integer"/>
+      <xs:attribute name="total" type="xs:integer"/>
+      <xs:attribute name="page" type="xs:integer"/>
+      <xs:attribute name="termsofuse" type="xs:anyURI"/>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
+
+-------------

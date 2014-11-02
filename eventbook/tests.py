@@ -2,9 +2,11 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase, LiveServerTestCase, Client
 from django.utils import timezone
 from eventbook.models import Event
+from eventbook.models import Game
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
 import factory.django
+
 
 # Factories
 class SiteFactory(factory.django.DjangoModelFactory):
@@ -18,14 +20,16 @@ class SiteFactory(factory.django.DjangoModelFactory):
     name = 'example.com'
     domain = 'example.com'
 
+
 class HostFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
-        django_get_or_create = ('username','email', 'password',)
+        django_get_or_create = ('username', 'email', 'password',)
 
     username = 'testuser'
     email = 'user@example.com'
     password = 'password'
+
 
 class EventFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -55,7 +59,44 @@ class EventFactory(factory.django.DjangoModelFactory):
     location = 'Jeff'
 
 
+class GameFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Game
+        django_get_or_create = (
+            'id',
+            'name',
+            'yearpublished',
+            'minplayers',
+            'maxplayers',
+            'playingtime',
+#            'families',
+#            'categories',
+#            'mechanics',
+#            'designers',
+#            'artists',
+#            'publishers',
+#            'categories',
+            'thumbnail',
+            'image',
+            'description'
+        )
 
+    id = '359'
+    name = 'Honeybears'
+    yearpublished = '1998'
+    minplayers = 3
+    maxplayers = 5
+    playingtime = '30 minutes'
+#            'families',
+#            'categories',
+#            'mechanics',
+#            'designers',
+#            'artists',
+#            'publishers',
+#            'categories',
+    thumbnail = 'http://cf.geekdo-images.com/images/pic199026_t.jpg'
+    image = 'http://cf.geekdo-images.com/images/pic199026_md.jpg'
+    description = 'Card game with a racing track by Reiner Knizia.'
 
 
 class EventTest(TestCase):
@@ -97,6 +138,29 @@ class EventTest(TestCase):
 
         self.assertEqual(only_event.host.username, 'testuser')
         self.assertEqual(only_event.host.email, 'user@example.com')
+
+
+class GameTest(TestCase):
+    def test_create_game(self):
+
+        game = GameFactory()
+
+        # Check we can find it
+        all_games = Game.objects.all()
+        self.assertEquals(len(all_games), 1)
+        only_game = all_games[0]
+        self.assertEquals(only_game, game)
+
+        # Check attributes
+        self.assertEqual(only_game.id, '359')
+        self.assertEqual(only_game.name, 'Honeybears')
+        self.assertEqual(only_game.yearpublished, '1998')
+        self.assertEqual(only_game.minplayers, 3)
+        self.assertEqual(only_game.maxplayers, 5)
+        self.assertEqual(only_game.playingtime, '30 minutes')
+        self.assertEqual(only_game.thumbnail, 'http://cf.geekdo-images.com/images/pic199026_t.jpg')
+        self.assertEqual(only_game.image, 'http://cf.geekdo-images.com/images/pic199026_md.jpg')
+        self.assertEqual(only_game.description, 'Card game with a racing track by Reiner Knizia.')
 
 
 class BaseAcceptanceTest(LiveServerTestCase):
