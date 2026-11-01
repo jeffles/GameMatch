@@ -5,7 +5,7 @@ dj-static==0.0.6
 django-toolbelt==0.0.1
 factory-boy==2.4.1
 gunicorn==23.0.0
-oauthlib==0.6.3
+oauthlib==4.0.0
 python-openid==2.2.5
 python-social-auth==0.2.1
 requests==2.33.0
